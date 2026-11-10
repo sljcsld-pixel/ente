@@ -8,7 +8,7 @@ import "package:logging/logging.dart";
 import "package:photos/theme/ente_theme.dart";
 
 enum AppIcon {
-  iconGreen("Default", "IconGreen", "assets/launcher_icon/icon-green.png"),
+  iconGreen("Default", "IconGreen", "assets/launcher_icon/ente-gallery.png"),
   iconLight("Light", "IconLight", "assets/launcher_icon/icon-light.png"),
   iconDark("Dark", "IconDark", "assets/launcher_icon/icon-dark.png"),
   iconOG("OG", "IconOG", "assets/launcher_icon/icon-og.png"),

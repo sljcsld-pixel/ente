@@ -30,6 +30,7 @@ import "package:photos/ui/settings/debug/debug_settings_page.dart";
 import "package:photos/ui/settings/debug/ml_debug_settings_page.dart";
 import "package:photos/ui/settings/inherited_settings_state.dart";
 import "package:photos/ui/settings/memories_settings_screen.dart";
+import "package:photos/ui/settings/offline_thumbnails_settings_page.dart";
 import "package:photos/ui/settings/ml/machine_learning_settings_page.dart";
 import "package:photos/ui/settings/notification_settings_screen.dart";
 import "package:photos/ui/settings/search/settings_search_registry.dart";
@@ -115,6 +116,18 @@ class _SettingsBody extends StatelessWidget {
                 icon: HugeIcons.strokeRoundedCloudUpload,
                 onTap: () async {
                   await routeToPage(context, const BackupSettingsPage());
+                },
+              ),
+              const SizedBox(height: 8),
+              _buildMenuItem(
+                title: "Keep thumbnails offline",
+                subtitle: "Save remote thumbnails without originals",
+                icon: HugeIcons.strokeRoundedDownload04,
+                onTap: () async {
+                  await routeToPage(
+                    context,
+                    const OfflineThumbnailsSettingsPage(),
+                  );
                 },
               ),
               const SizedBox(height: 8),

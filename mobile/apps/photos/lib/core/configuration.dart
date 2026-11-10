@@ -82,6 +82,7 @@ class Configuration implements LockScreenHost, AccountDeletionHost {
   late FlutterSecureStorage _secureStorage;
   late String _tempDocumentsDirPath;
   late String _thumbnailCacheDirectory;
+  late String _offlineThumbnailCacheDirectory;
   late String _personFaceThumbnailCacheDirectory;
 
   late String _sharedDocumentsMediaDirectory;
@@ -109,6 +110,9 @@ class Configuration implements LockScreenHost, AccountDeletionHost {
       final tempDirectoryPath = (await getTemporaryDirectory()).path;
       _thumbnailCacheDirectory = tempDirectoryPath + "/thumbnail-cache";
       Directory(_thumbnailCacheDirectory).createSync(recursive: true);
+      _offlineThumbnailCacheDirectory =
+          _documentsDirectory + "/offline-thumbnail-cache";
+      Directory(_offlineThumbnailCacheDirectory).createSync(recursive: true);
       _personFaceThumbnailCacheDirectory =
           _documentsDirectory + "/person-face-thumbnail-cache";
       Directory(_personFaceThumbnailCacheDirectory).createSync(recursive: true);
@@ -504,6 +508,10 @@ class Configuration implements LockScreenHost, AccountDeletionHost {
 
   String getThumbnailCacheDirectory() {
     return _thumbnailCacheDirectory;
+  }
+
+  String getOfflineThumbnailCacheDirectory() {
+    return _offlineThumbnailCacheDirectory;
   }
 
   String getPersonFaceThumbnailCacheDirectory() {

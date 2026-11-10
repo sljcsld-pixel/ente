@@ -79,6 +79,7 @@ import "package:photos/ui/settings/app_update_sheet.dart";
 import "package:photos/ui/settings_page.dart";
 import "package:photos/ui/social/feed_screen.dart";
 import "package:photos/ui/tabs/albums_tab.dart";
+import "package:photos/ui/tabs/favorites_tab.dart";
 import "package:photos/ui/viewer/actions/file_viewer.dart";
 import "package:photos/ui/viewer/file/detail_page.dart";
 import "package:photos/ui/viewer/gallery/collection_page.dart";
@@ -151,7 +152,10 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   final DiffFetcher _diffFetcher = DiffFetcher();
 
-  List<int> get _tabIndices => homeTabIndices(showFeed: !isLocalGalleryMode);
+  List<int> get _tabIndices => homeTabIndices(
+    showFeed: !isLocalGalleryMode,
+    showFavorites: !isLocalGalleryMode,
+  );
 
   void _startWithoutAccountFlow() {
     setState(() {
@@ -1134,6 +1138,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                         if (!localGalleryMode)
                           _buildTabHeroMode(2, selectedTabIndex, _feedTab),
+                        if (!localGalleryMode)
+                          _buildTabHeroMode(
+                            4,
+                            selectedTabIndex,
+                            const FavoritesTab(),
+                          ),
                         _buildTabHeroMode(
                           3,
                           selectedTabIndex,
@@ -1207,6 +1217,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     _selectedAlbums,
                     selectedTabIndex: _selectedTabIndex,
                     showFeed: !localGalleryMode,
+                    showFavorites: !localGalleryMode,
                   ),
                 ],
               );

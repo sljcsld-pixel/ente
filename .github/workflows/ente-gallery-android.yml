@@ -1,0 +1,66 @@
+name: Ente Gallery Android APK
+
+on:
+  push:
+    branches:
+      - codex/ente-gallery-customizations
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ente-gallery-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.8'
+          channel: stable
+          cache: true
+
+      - name: Prepare Android Flutter SDK
+        run: flutter precache --android
+
+      - name: Generate Rust bindings
+        working-directory: rust
+        run: cargo codegen frb photos
+
+      - name: Install Flutter workspace dependencies
+        working-directory: mobile/apps/photos
+        run: |
+          sed '/^untranslated-messages-file:/d' ../../packages/strings/l10n.yaml > "$RUNNER_TEMP/l10n.yaml"
+          mv "$RUNNER_TEMP/l10n.yaml" ../../packages/strings/l10n.yaml
+          flutter pub get --enforce-lockfile
+          (cd ../../packages/strings && flutter gen-l10n)
+
+      - name: Build Ente Gallery debug APK (arm64)
+        working-directory: mobile/apps/photos
+        run: flutter build apk --debug --flavor independent --target-platform android-arm64 --no-pub
+
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ente-gallery-android-arm64-debug
+          path: mobile/apps/photos/build/app/outputs/flutter-apk/app-independent-debug.apk
+          if-no-files-found: error
+          retention-days: 14

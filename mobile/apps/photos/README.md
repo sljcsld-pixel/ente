@@ -37,13 +37,16 @@ You can alternatively install the build from PlayStore or F-Droid.
 
 ## 🧑‍💻 Building from source
 
-1. Install [Flutter v3.47.8](https://flutter.dev/docs/get-started/install) and [Rust](https://www.rust-lang.org/tools/install).
+1. Install [Rust](https://www.rust-lang.org/tools/install). This fork pins Flutter **3.47.8** in `mobile/.fvmrc` using FVM. Open `mobile/apps/photos` as the Flutter project in Android Studio and set its Flutter SDK path to `mobile/.fvm/flutter_sdk` if Android Studio does not pick up the pin automatically.
 
-2. From any folder inside `mobile/`, install the workspace dependencies with `flutter pub get --enforce-lockfile`. Then, from `rust/`, generate the Rust bindings with `cargo codegen frb`.
+2. From `mobile/apps/photos/`, install workspace dependencies with `fvm flutter pub get --enforce-lockfile`. Then, from `rust/`, generate the Rust bindings with `cargo codegen frb`.
 
-3. Run the app:
-   - Android: `flutter run --flavor independent`
-   - iOS: `flutter run`
+3. Run or build from `mobile/apps/photos/`:
+   - Android: `fvm flutter run --flavor independent`
+   - Debug APK: `fvm flutter build apk --debug --flavor independent`
+   - iOS: `fvm flutter run`
+
+If `fvm` is not on your shell `PATH`, use the pinned SDK directly from `mobile/apps/photos/`: `../../.fvm/flutter_sdk/bin/flutter` in place of `fvm flutter`.
 
 > [!NOTE]
 >

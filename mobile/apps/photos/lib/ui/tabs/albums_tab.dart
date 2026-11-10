@@ -964,6 +964,22 @@ class _AlbumsTabState extends State<AlbumsTab>
                                 onTap: _activateSearch,
                               ),
                               const SizedBox(width: 6),
+                              if (!isLocalGalleryMode)
+                                IconButtonComponent(
+                                  variant: IconButtonComponentVariant.primary,
+                                  shouldSurfaceExecutionStates: false,
+                                  tooltip: "Album groups",
+                                  icon: const Icon(Icons.folder_copy_outlined),
+                                  onTap: () => Navigator.of(context).push<void>(
+                                    MaterialPageRoute(
+                                      builder: (_) => AlbumGroupsPage(
+                                        collections:
+                                            _enteCollections.value ?? const [],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (!isLocalGalleryMode) const SizedBox(width: 6),
                               albumsOptionsButton,
                               if (isLocalGalleryMode)
                                 const _LocalGalleryTrashButton(

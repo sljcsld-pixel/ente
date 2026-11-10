@@ -86,3 +86,6 @@ key.properties
 **/*.keystore
 **/*.jks
 devtools_options.yaml
+
+# FVM Version Cache
+.fvm/

@@ -459,6 +459,13 @@ File cachedThumbnailPath(EnteFile file) {
       .getThumbnailCacheDirectory();
   final uploadedFileID = file.uploadedFileID;
   if (uploadedFileID != null && uploadedFileID != -1) {
+    final userID = Configuration.instance.getUserID();
+    if (userID != null) {
+      final offlineCopy = File(
+        "${Configuration.instance.getOfflineThumbnailCacheDirectory()}/$userID/$uploadedFileID",
+      );
+      if (offlineCopy.existsSync()) return offlineCopy;
+    }
     return File("$thumbnailCacheDirectory/$uploadedFileID");
   }
 
@@ -472,6 +479,27 @@ File cachedThumbnailPath(EnteFile file) {
   return File(
     "$thumbnailCacheDirectory/generated-${file.generatedID ?? "unknown"}",
   );
+}
+
+/// Persistent, thumbnail-only cache path for a remote uploaded file.
+File offlineThumbnailPath(EnteFile file) {
+  final uploadedFileID = file.uploadedFileID;
+  if (uploadedFileID == null || uploadedFileID == -1) {
+    throw ArgumentError.value(file, 'file', 'Expected an uploaded file');
+  }
+  final userID = Configuration.instance.getUserID();
+  if (userID == null) {
+    throw StateError('Cannot resolve offline thumbnail cache without account');
+  }
+  return File("${offlineThumbnailDirectoryPath()}/$uploadedFileID");
+}
+
+String offlineThumbnailDirectoryPath() {
+  final userID = Configuration.instance.getUserID();
+  if (userID == null) {
+    throw StateError('Cannot resolve offline thumbnail cache without account');
+  }
+  return "${Configuration.instance.getOfflineThumbnailCacheDirectory()}/$userID";
 }
 
 File cachedFaceCropPath(String faceID, bool useTempCache) {

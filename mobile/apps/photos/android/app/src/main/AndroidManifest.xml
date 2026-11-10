@@ -9,7 +9,7 @@
         tools:node="remove" />
     <application android:name=".EnteApplication"
         android:label="@string/app_name"
-        android:icon="@mipmap/icon_green"
+        android:icon="@mipmap/ente_gallery_launcher"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="false"
@@ -153,7 +153,7 @@
 
         <activity-alias
             android:name="${applicationId}.IconGreen"
-            android:icon="@mipmap/icon_green"
+            android:icon="@mipmap/ente_gallery_launcher"
             android:enabled="true"
             android:exported="true"
             android:targetActivity=".MainActivity">

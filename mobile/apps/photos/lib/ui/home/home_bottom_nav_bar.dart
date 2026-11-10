@@ -23,6 +23,7 @@ class HomeBottomNavigationBar extends StatefulWidget {
     this.selectedAlbums, {
     required this.selectedTabIndex,
     required this.showFeed,
+    required this.showFavorites,
     super.key,
   });
 
@@ -30,6 +31,7 @@ class HomeBottomNavigationBar extends StatefulWidget {
   final SelectedAlbums selectedAlbums;
   final int selectedTabIndex;
   final bool showFeed;
+  final bool showFavorites;
 
   @override
   State<HomeBottomNavigationBar> createState() =>
@@ -137,6 +139,7 @@ class _HomeBottomNavigationBarState extends State<HomeBottomNavigationBar> {
                     _HomeNavBar(
                       selectedIndex: currentTabIndex,
                       showFeed: widget.showFeed,
+                      showFavorites: widget.showFavorites,
                       onTabChange: (index) {
                         _onTabChange(index, mode: "OnPressed");
                       },
@@ -156,6 +159,7 @@ class _HomeNavBar extends StatelessWidget {
   const _HomeNavBar({
     required this.selectedIndex,
     required this.showFeed,
+    required this.showFavorites,
     required this.onTabChange,
   });
 
@@ -184,16 +188,27 @@ class _HomeNavBar extends StatelessWidget {
       outlineAsset: 'assets/icons/nav_bar/search_outline.svg',
       filledAsset: 'assets/icons/nav_bar/search_filled.svg',
     ),
+    _HomeNavTab(
+      semanticLabel: 'Favorites',
+      semanticIdentifier: 'ente.photos.tab.favorites',
+      outlineAsset: 'assets/icons/nav_bar/favorites_outline.svg',
+      filledAsset: 'assets/icons/nav_bar/favorites_filled.svg',
+    ),
   ];
 
   final int selectedIndex;
   final bool showFeed;
+  final bool showFavorites;
   final ValueChanged<int> onTabChange;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.componentColors;
-    final tabIndices = homeTabIndices(showFeed: showFeed);
+    final tabIndices = homeTabIndices(
+      showFeed: showFeed,
+      showFavorites: showFavorites,
+    );
+    final itemSpacing = tabIndices.length > 4 ? 8.0 : _homeNavItemSpacing;
     return GNav(
       curve: Curves.easeOutExpo,
       backgroundColor: colors.fillLight,
@@ -219,10 +234,8 @@ class _HomeNavBar extends StatelessWidget {
         final tab = _tabs[tabIndex];
         return GButton(
           margin: EdgeInsets.only(
-            left: index == 0 ? Spacing.lg : _homeNavItemSpacing,
-            right: index == tabIndices.length - 1
-                ? Spacing.lg
-                : _homeNavItemSpacing,
+            left: index == 0 ? Spacing.lg : itemSpacing,
+            right: index == tabIndices.length - 1 ? Spacing.lg : itemSpacing,
             top: Spacing.md,
             bottom: Spacing.md,
           ),
