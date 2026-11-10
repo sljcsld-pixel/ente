@@ -32,6 +32,7 @@ import "package:photos/ui/collections/device/device_folders_vertical_grid_view.d
 import "package:photos/ui/collections/flex_grid_view.dart";
 import "package:photos/ui/components/empty_state_component.dart";
 import "package:photos/ui/tabs/albums/albums_manage_sheet.dart";
+import "package:photos/ui/tabs/album_groups_page.dart";
 import "package:photos/ui/tabs/albums/empty_states/on_ente_empty_state.dart";
 import "package:photos/ui/tabs/albums/empty_states/received_empty_state.dart";
 import "package:photos/ui/tabs/albums/empty_states/shared_empty_state.dart";
